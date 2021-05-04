@@ -1,0 +1,735 @@
+@import "variables";
+
+/* -------------------- Mixins --------------------- */
+@mixin flex($direction) {
+    display: flex;
+    flex-direction: $direction;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* -------------------- Resets --------------------- */
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+*:focus {
+    outline: none;
+}
+
+/* ------------------- Defaults ------------------- */
+html {
+    height: 100%;
+    overflow: auto;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: $dark;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji,
+        Segoe UI Emoji;
+}
+
+hr {
+    color: $lightWhite;
+    border-style: inset;
+    border-width: 1px;
+    margin: 0;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: $white;
+    &:hover {
+        text-decoration: underline;
+        color: $blue;
+    }
+}
+
+::selection {
+    color: $dark;
+    background: $white;
+}
+
+/* ------------------- Globals ------------------- */
+.important-text {
+    font-weight: 650;
+
+}
+
+
+/* ------------ 404 Not Found Error ------------- */
+
+.Error {
+    color:           $white;
+    display:         flex;
+    flex-direction:  column;
+    justify-content: center;
+    align-items:     center;
+    height:          80vh;
+    width:           100%;
+
+    .err404 {
+        font-size: 3.75rem;
+    }
+
+    .not-found {
+        font-size: 1.5rem;
+        margin-top: -2em;
+    }
+
+    .go-back {
+        color: $blue;
+        font-size: 1.2rem;
+    }
+
+}
+
+/* ------------ Spinner (loading) Animation ------------- */
+
+.loading-spinner {
+    position: absolute;
+    right: 1.25em;
+    top: 1.25em;
+
+    width: 2em;
+    height: 2em;
+    border: 0.1em solid $dark;
+    border-radius: 50%;
+    border-bottom-color: white;
+    animation: rotate 2s linear infinite reverse;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(360deg);
+    }
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+/* ------- Balls (loading) Animation -------- */
+
+.loading-balls {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    width: 3em;
+    height: 1em;
+
+    div {
+        width: 0.7em;
+        height: 0.7em;
+        background: $blue;
+        border-radius: 50%;
+        animation: balls 0.5s ease infinite alternate;
+    }
+
+    div:nth-child(2) {
+        animation-delay: 0.1s;
+    }
+}
+
+@keyframes balls {
+    from {
+        opacity: 0.4;
+    }
+
+    to {
+        opacity: 0.9;
+    }
+}
+
+
+
+/* ------------------ HEADER ------------------- */
+
+
+
+.header {
+    background: $light;
+    padding: 1em;
+
+
+
+    @media (max-width: 700px) {
+        font-size: .9rem;
+    }
+
+    // Logo
+    .logo {
+        z-index: 1;
+        margin-top: -0.2em;
+        opacity: 0.8;
+        width: 2.5em;
+        position: absolute;
+        transition: 0.15s;
+        filter: $whiteFilter drop-shadow(2px 2px 1.5px $blue);
+        &:hover {
+            filter: $whiteFilter drop-shadow(2px 2px 1.5px $green);
+        }
+    
+        @media (max-width: 700px) {
+            position: relative;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 1em;
+        }
+
+    }
+
+
+    // Search Bar
+    .search-bar {
+        margin: 0 auto;
+        position: relative;
+        left: 0.75em;
+        width: fit-content;
+
+        
+        .latest-searches {
+            display: none;
+        }
+
+
+        &:focus-within, &:active {
+            .latest-searches {
+                position:        absolute;
+                display:         flex;
+                flex-direction:  column;
+                justify-content: center;
+                z-index:         5;
+                width:           120%;
+                right:          -5.5%;
+                padding:         0 1em;
+                border:          1em;
+                border-radius:  .1em;
+                background:    rgba(43, 49, 55, .95);
+                border:         .1em solid $dark;
+
+
+                .title {
+                    color: $white;
+                    margin: 0 auto;
+                    margin-top: .4em;
+                    margin-bottom: .2em;
+                    padding: 1em;
+                }
+
+
+                .searched-person {
+                    background: $dark;
+                    
+                    padding: .15em .75em;
+                    margin:  .5em 1em;
+                }
+
+                .person-logo {
+                    float: left;
+                    position: relative;
+                    top: 1.25em;
+                    margin-right: .5em;
+                    width: 1.25em;
+                    filter: $whiteFilter;
+                }
+                
+            }
+        }
+
+        .input-type-text {
+            padding: 0.6em;
+            border: 0.11em solid rgb(160, 160, 160);
+            border-radius: 1em;
+            width: 20em;
+            transition: 0.3s;
+            background: $dark;
+            color: $white;
+
+            @media (max-width: 700px) {
+                font-size: .75rem;
+            }
+
+            &:active, &:focus {
+                width: 25em;
+                border: 0.11em solid rgb(202, 202, 202);
+
+                .search-bar {
+                    background: gray;
+                }
+            }
+        }            
+
+
+        @media (max-width: 700px) {
+            .input-type-text {
+                width: 15em;
+                &:focus {
+                    width: 17.5em;
+                }
+            }
+        }
+
+        @media (max-width: 350px) {
+            .input-type-text {
+                width: 12em;
+                &:focus {
+                    width: 13.5em;
+                }
+            }
+        }
+
+        .search-icon {
+            position: relative;
+            width: 1.5em;
+            margin-bottom: -0.45em;
+            margin-left: 0.35em;
+            opacity: 0.7;
+            cursor: pointer;
+            filter: $whiteFilter;
+        }
+    }
+
+
+    // View 
+    .view {
+        
+        img {
+            filter: $whiteFilter;
+            position: relative;
+            cursor: pointer;
+            transition: 0.2s;
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+
+        .list {
+            width: 2em;
+            float:right;
+            // z-index: ;
+        }
+
+        .grid {
+            width: 1.3em;
+            top: .35em;
+            float:right;
+            // z-index: ;
+        }
+
+    }
+
+
+}
+
+/* ------------------ MAIN ------------------- */
+
+.main {
+    background: gray;
+}
+
+li {
+    list-style: none;
+}
+
+.user-avatar {
+    border-right: 0.1em solid $lightWhite;
+    width: 9.5em;
+}
+
+.user-avatar-grid {
+    width: 100%;
+}
+
+.person {
+    word-break: break-all;
+    width: 10em;
+    padding: 1em;
+    margin-top: 1em;
+    font-size: .8rem;
+    text-align: center;
+
+    .person-logo {
+        width: 2em;
+        filter: $whiteFilter;
+    }
+
+    @media (max-width: 700px) {
+        font-size: .55rem;
+    }
+
+    @media (max-width: 350px) {
+        font-size: .4rem;
+    }
+
+    .person-logo-grid {
+        margin-bottom: -1em;
+    }
+
+    .user-login {
+        margin-top: 0;
+    }
+
+    .user-login-grid {
+        margin-bottom: -1em;
+    }
+}
+
+
+
+.repos {
+    text-align: center;
+    width: 15em;
+    color: $white;
+
+    
+    .loading-balls {
+        margin: 0 auto;
+        margin-top: .35em;
+    }
+}
+
+.repo-icon {
+    width: 1.5em;
+    filter: $whiteFilter;
+}
+
+.user-type {
+    background: $blue;
+    color: $white;
+    padding: 0.25em 0.75em;
+    border-radius: 0.5em;
+    width: 3.65em;
+    margin-left: 1em;
+    margin-right: -1.5em;
+}
+
+.user-type-grid {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.main-list {
+    max-width: 60%;
+}
+
+.main-grid, .main-list{
+    transition: 0.3s;
+    margin: 0 auto;
+}
+
+.main-grid {
+    // position: absolute;
+    max-width: 60%;
+}
+
+.main-grid {
+    @media (max-width: 700px) {
+        font-size: .8rem;
+        
+    }
+}
+
+.main-list {
+    @media (max-width: 900px) {
+        max-width: 100%;
+        font-size: .6rem;
+    }
+
+    @media (min-width: 2500px) {
+        max-width: 35%;
+    }
+}
+
+
+.user { 
+    display:         flex;
+    flex-direction:  row;
+    justify-content: space-between;
+    align-items:     center;
+    font-size:       .95rem;
+    background:      $light;
+
+    @media (max-width: 700px) {
+        font-size: .55rem;
+    }
+
+    @media (max-width: 350px) {
+        font-size: .4rem;
+    }
+
+} // User is whole user container
+
+.user {
+    margin: 2.5em 2em;
+    border: 1px solid $lightWhite;
+}
+ 
+.users-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    
+    margin-top: 1.5em;
+
+    @media (max-width: 700px) {
+        display: block;
+    }
+}
+
+
+.user-grid {
+    // max-width: fit-content;
+    // background: gray;
+    border: 1px solid $lightWhite;
+}
+
+
+.user-grid {
+    padding: 1em;
+    margin: 0 .5em;
+    margin-top: 2.5em;
+    margin-bottom: 0;
+    background: $light;
+
+    @include flex($direction: column);
+}
+
+// Page Switch
+
+.page-switch {
+    display:        flex;
+    flex-direction: row;
+
+    margin-left:    auto;
+    margin-right:   auto;
+
+    width:          fit-content;
+    position:       relative;
+    left:           .17em;
+    
+    .next-page, .prev-page {
+        color:      $white;
+        background: $light;
+        padding:    .1em .76em;
+        margin:     1em .55em;
+        cursor:     pointer;
+        font-size:  2rem;
+        transition: 0.1s;
+
+        &:hover {
+            background: $blue;
+        }
+    }
+}
+
+
+
+/* ------------------ USER PAGE ------------------- */
+
+.user-page {
+    display:     flex;
+    align-items: flex-start;
+    color:       $white;
+    margin-top:  2em;
+    // background: gray;
+    // overflow-y: hidden;
+
+    @media (max-width: 900px) {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .avatar {
+        width:          30em;
+        border:         1em solid $light;
+        transition:     0.15s;
+        margin-left:    3em;
+        margin-right:   2em;
+
+        @media (max-width: 900px) {
+            width: 90%;
+            margin: 0 auto;
+            
+        }
+
+    }
+
+    .texts-container {
+        // background: gray;
+        min-width: 50%;
+        margin: 1em;
+        padding: 1em;
+        display: flex;
+        flex-direction: column;
+        // justify-content: center;
+        align-items: flex-start;
+
+        @media (max-width: 700px) {
+            font-size: .85rem;
+        }
+    }
+
+    .name {
+        margin-bottom: 0;
+    }
+
+    .login {
+        margin-top: .5em;
+        color: $lightWhite;
+    }   
+
+    .type {
+        font-size: 1rem;
+        float:right;
+        position: relative;
+        top: .12em;
+    }
+
+    .FollowerFollowing-container {
+        p              { display:     inline-block; }
+        a:nth-child(2) { margin-left: .75em;        }
+    }
+
+    .repos {
+        width: fit-content;
+
+        li:nth-child(3) {
+            margin: .5em;
+        }
+    }
+
+    .user-repo {
+
+        display: inline-block;
+    }
+
+    .repo-icon {
+        position: relative;
+        top: .75em;
+        margin-right: .5em;
+        // background: gray;
+    }
+
+
+    /* ------------------ USER PAGE ORGANISATIONS ------------------- */
+
+    .title {
+        margin: 0;
+        margin-top: 2em; 
+    }
+
+    .orgs {
+        margin-top: 1em;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        max-width: 90%;
+
+
+        .orgs-image {
+            width: 2.25em;
+            display: flex;
+            margin: 0 auto;
+            // position: relative;
+            margin-top: 1.2em;
+            margin-bottom: -0.75em;
+            // float: left;
+            
+        }
+
+         .orgs-login {
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .org {
+            width: fit-content;
+            background: $light;
+            padding: .1em .5em;
+            margin: .5em .75em;
+            margin-left: 0;
+            text-align: center;
+        }
+
+
+    }
+
+
+
+}
+
+
+
+
+
+// rate limit
+
+.rate-limit {        
+    background: $light;
+    color: $white;
+    width: 8em;
+    text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    // margin-bottom: 5em;
+    border: 1px solid $light;
+    transition: .3s;
+    border-radius: .5em;
+    font-size: .8rem;
+
+    // @media (max-width: 900px) {
+    //     font-size: .75rem;
+    //     width: 100%;
+    //     position: relative;
+    // }
+
+    .remaining {
+        margin: 0;
+        font-size: 1.2em;
+        margin-top: .5em;
+    }
+
+    .renew-time {
+        font-size: .9em;
+        margin: .15em 0;
+       
+    }
+
+    .requests-button {
+        margin-top: .65em;
+        cursor: pointer;
+        background: $dark;
+        border: .1em solid $dark;
+        color: $white;
+        width: 100%;
+        transition: 0.2s;
+        padding: .5em;
+        font-size: 1em;
+        margin-bottom: 0;
+    }
+
+    .red {
+        background: red;
+    }
+
+}
+

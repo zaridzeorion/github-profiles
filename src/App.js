@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+// Components
+import MainPage from './Components/MainPage/MainPage'
+import UserPage from './Components//UserPage/UserPage'
+import Header from './Components/Header'
+import RateLimit from './Components/RateLimit'
+
+import './styles/index.css'
+
+// React-Router
+import { useLocation, HashRouter as Router, Switch, Route } from "react-router-dom";
+
+const App = () => {
+    // Id 0 stands for List view, id 1 - Grid
+    // ( This is global state and is used in id header&main page )
+    const [view, setView] = useState(0)
+
+
+    return (
+        <Router>
+
+            <Header view={view} setView={setView} />
+            <hr />
+
+
+            <Switch>
+                <Route 
+                    exact path='/' 
+                    render={() => <MainPage view={view} />} 
+                />
+                <Route 
+                    path='/:username' 
+                    component={UserPage} 
+                />
+            </Switch>
+
+
+            <RateLimit />
+
+        </Router>
+    )
 }
 
-export default App;
+export default App
